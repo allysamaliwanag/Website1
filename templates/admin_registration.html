@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_registration.css') }}">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+              <img src="{{ url_for('static', filename='school_logo.png') }}" alt="School Logo">
+                <h1>Alitagtag Senior Highschool</h1>
+            </div>
+            <nav>
+                <ul>
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn">Go Back to Admin Dashboard</a>
+                </ul>
+            </nav>
+        </nav>
+    </header>
+
+    <main>
+        <section class="login-container">
+    <h1>Admin Registration</h1>
+    <form method="POST" action="/admin_register">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <input type="submit" value="Register">
+   
+    </form>
+</section>
+</main>
+</body>
+</html>

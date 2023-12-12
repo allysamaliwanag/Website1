@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+    <header>
+        
+        <nav class="navbar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='school_logo.png') }}" alt="School Logo">
+                <h1>Alitagtag Senior High School</h1>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="admin-content">
+            <div class="welcome">
+                <h2>Welcome, Admin!</h2>
+                <a href="{{ url_for('reset_password') }}" class="reset-link"><i class="fas fa-key"></i></a>
+            </div>
+    
+            <p class="description">Manage the school's students, teachers, and generate reports.</p>
+        </section>
+<br>
+<section class="administrator-tool-section">
+    <h2>Administrator Tools</h2>
+    <div class="tool-buttons">
+        <a href="{{ url_for('student_registration') }}" class="btn">Student Registration</a>
+        <a href="{{ url_for('teacher_registration') }}" class="btn btn-primary">Teacher Registration</a>
+        <a href="{{ url_for('admin_registration_form') }}" class="btn btn-primary">Admin Registration</a>
+        <a href="{{ url_for('manage_reports') }}" class="btn btn-primary">Manage Reports</a>
+        <a href="{{ url_for('manage_users') }}" class="btn btn-primary">Manage Users</a>
+    </div>
+</section>
+    
+    </main>
+    
+    <footer class="footer">
+        <p>&copy; 2023 Alitagtag Senior High School. All rights reserved.</p>
+    </footer>
+
+    
+
+</body>
+</html>

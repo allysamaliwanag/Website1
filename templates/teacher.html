@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Teacher Portal</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='teacher.css') }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    </head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='school_logo.png') }}" alt="School Logo">
+                <h1>Alitagtag Senior Highschool</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="login">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="profile">
+            <div class="profile-photo">
+                <img src="{{ url_for('static', filename='profile_placeholder.png') }}" alt="Profile Photo">
+            </div>
+            <div class="profile-details">
+                <h2>Welcome, {{ teacher.name }}!</h2>
+                <p>Teacher ID: {{ teacher.teacherID }}</p>
+                <p>Email: {{ teacher.email }}</p>
+                <p>Section: {{ teacher.section }}</p>
+            </div>
+        </section>
+
+        <section class="student-table">
+            <h2>Student Information</h2>
+
+            <table id="sectionTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Section</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <td>{{ student.studentID }}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.email }}</td>
+                            <td>{{ student.section }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="search-bar">
+                <button id="clearButton" class="btn">Clear</button>
+                <button id="refreshButton" class="btn">Refresh Table</button>
+                <button id="openModalButton" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    Enroll Students
+                </button>
+
+
+            </div>
+        </section>
+
+        <section class="reports-table">
+            <h2>View Reports</h2>
+            <table id="reportsTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Section</th>
+                        <th>Timestamp</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- You can use JavaScript to populate the table with report data -->
+                </tbody>
+            </table>
+            <div class="search-bar">
+                <button id="clearReportsButton" class="btn">Clear</button>
+                <button id="refreshReportsButton" class="btn">Refresh Reports</button>
+            </div>
+        </section>
+
+        <section id="studentAttendance" class="student-Attendance">
+            <h2>Student Attendance</h2>
+            <table id="attendanceTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <td>{{ student.studentID }}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.attendance }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="table-buttons">
+                <button id="clearAttendanceButton" class="btn">Clear</button>
+                <button id="refreshAttendanceButton" class="btn">Refresh</button>
+                <button id="customOpenModalButton" class="btn btn-primary">Open Custom Modal</button>
+            </div>
+        </section>
+
+    </main>
+    <footer class="footer">
+        <p>&copy; 2023 School Name. All rights reserved.</p>
+    </footer>
+
+
+ <div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="studentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="studentModalLabel">Student Details</h5>
+                <button id="closeModalButton" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="studentTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>NFC Tag</th>
+                            <th>Section</th>
+                            <th>Grade Level</th>
+                            <th>Actions</th> <!-- Add the Edit button column header -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Student data will be displayed here using JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editStudentModal" tabindex="-1" role="dialog" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStudentModalLabel">Edit Student Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editStudentForm">
+                    <div class="form-group">
+                        <label for="editStudentID">Student ID:</label>
+                        <input type="text" class="form-control" id="editStudentID" name="studentID" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editStudentName">Name:</label>
+                        <input type="text" class="form-control" id="editStudentName" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentEmail">Email:</label>
+                        <input type="email" class="form-control" id="editStudentEmail" name="email">
+                    </div>
+                    <div class "form-group">
+                        <label for="editStudentNfcTag">NFC Tag:</label>
+                        <input type="text" class="form-control" id="editStudentNfcTag" name="nfcTag">
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentSection">Section:</label>
+                        <input type="text" class="form-control" id="editStudentSection" name="section">
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentGradeLevel">Grade Level:</label>
+                        <input type="text" class="form-control" id="editStudentGradeLevel" name="grade_level">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveEditButton">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="attendanceModal" tabindex="-1" role="dialog" aria-labelledby="attendanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="attendanceModalLabel">Attendance Records</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-controls">
+                    <!-- Date filter input -->
+                    <div class="form-group">
+                        <label for="filterDateInput">Filter by Date:</label>
+                        <input type="date" class="form-control" id="filterDateInput">
+                    </div>
+
+                    <!-- "Present" and "Absent" filter radio buttons -->
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="statusRadio" id="filterStatusPresent" value="Present" checked>
+                        <label class="form-check-label" for="filterStatusPresent">Present</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="statusRadio" id="filterStatusAbsent" value="Absent">
+                        <label class="form-check-label" for="filterStatusAbsent">Absent</label>
+                    </div>
+
+                    <!-- Filter button -->
+                    <button type="button" class="btn btn-primary" id="filterAttendanceButton">Filter</button>
+                </div>
+
+                <table id="filteredAttendanceTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Section</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Filtered attendance data will be displayed here using JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <!-- Add any buttons or controls here, e.g., "Close" button -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <script>
+        // JavaScript to hide the modal when the close button is clicked
+        document.getElementById('closeModalButton').addEventListener('click', function () {
+            $('#studentModal').modal('hide');
+        });
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="{{ url_for('static', filename='teacher.js') }}"></script>
+</body>
+</html>

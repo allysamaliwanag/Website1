@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Registration</title>
+    <!-- Link your external CSS file here -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='teacher_registration.css') }}">
+</head>
+<body>
+    <!-- Header section (you can customize this) -->
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='school_logo.png') }}" alt="School Logo">
+                <h1>Alitagtag Senior Highschool</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="login">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn">Go Back to Admin Dashboard</a>
+    <!-- Main content section -->
+<main>
+    <div class="registration-form">
+        <h1>Teacher Registration</h1>
+        <form action="{{ url_for('register_teacher') }}" method="POST" enctype="multipart/form-data">
+            <!-- Use a table for organizing form fields -->
+            <table class="registration-table">
+                <tr>
+                    <td>
+                        <div class="image-upload">
+                           <div class="image-preview">
+                                <div class="square">
+                                    <img id="imagePreview" src="#" alt="Image Preview">
+                                </div>
+                            </div>
+                            <label for="profilePicture">Profile Picture (1x1 aspect ratio):</label>
+                            <input type="file" id="profilePicture" name="profilePicture" accept="image/*" required>
+                        </div>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td><label for="teacherID">Teacher ID:</label></td>
+                                <td><input type="text" id="teacherID" name="teacherID" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="username">Username:</label></td>
+                                <td><input type="text" id="username" name="username" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="password">Password:</label></td>
+                                <td><input type="password" id="password" name="password" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="confirmPassword">Confirm Password:</label></td>
+                                <td><input type="password" id="confirmPassword" name="confirmPassword" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="name">Name:</label></td>
+                                <td><input type="text" id="name" name="name" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="email">Email:</label></td>
+                                <td><input type="text" id="email" name="email" required></td>
+                            </tr>
+                            <td><label for="section">Section:</label></td>
+                            <td>
+                                <select id="section" name="section" required>
+                                    <option value="TVL">TVL</option>
+                                    <option value="ABM">ABM</option>
+                                    <option value="Stem">STEM</option>
+                                </select>
+                            </td>
+                    </td>
+                </tr>
+            </table>
+            <button type="submit" class="btn">Register</button>
+        </form>
+    </div>
+</main>
+    <!-- Footer section (you can customize this) -->
+    <footer>
+        <!-- Add any footer content here -->
+    </footer>
+    
+    <script>
+        // JavaScript for image preview
+        document.getElementById('profilePicture').addEventListener('change', function () {
+            var imagePreview = document.getElementById('imagePreview');
+            var file = this.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>

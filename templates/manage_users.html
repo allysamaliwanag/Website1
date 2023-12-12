@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='manage_users.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='school_logo.png') }}" alt="School Logo">
+                <h1>Alitagtag Senior Highschool</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn">Go Back to Admin Dashboard</a>
+
+    <main>
+        <section class="user-list">
+            <h2>Manage Users</h2>
+            <label for="roleFilter">Filter by Role:</label>
+            <select id="roleFilter">
+                <option value="all">All</option>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+            </select>
+            <button id="searchButton">Search</button>
+            <input type="text" id="searchQuery" placeholder="Search users...">
+            <table id="usersTable" class="display scrollable-table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Section</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- User rows will be added here dynamically -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+
+
+    
+    <footer class="footer">
+        <p>&copy; 2023 Alitagtag Senior Highschool. All rights reserved.</p>
+    </footer>
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="{{ url_for('static', filename='manage_users.js') }}"></script>
+</body>
+</html>

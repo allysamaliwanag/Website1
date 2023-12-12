@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='student_registration.css') }}">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='school_logo.png') }}" alt="School Logo">
+                <h1>Alitagtag Senior Highschool</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="login">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn">Go Back to Admin Dashboard</a>
+<main>
+    <div class="registration-form">
+        <h1>Student Registration</h1>
+        <form action="{{ url_for('student_registration') }}" method="POST" enctype="multipart/form-data">
+            <table class="registration-table">
+                <tr>
+                    <td>
+                        <div class="image-upload">
+                           <div class="image-preview square">
+                                <img id="imagePreview" src="#" alt="Image Preview">
+                            </div>
+                            <label for="profilePicture">Profile Picture (1x1 aspect ratio):</label>
+                            <input type="file" id="profilePicture" name="profilePicture" accept="image/*" required>
+                        </div>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td><label for="studentID">Student ID:</label></td>
+                                <td><input type="text" id="studentID" name="studentID" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="username">Username:</label></td>
+                                <td><input type="text" id="username" name="username" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="password">Password:</label></td>
+                                <td><input type="password" id="password" name="password" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="confirmPassword">Confirm Password:</label></td>
+                                <td><input type="password" id="confirmPassword" name="confirmPassword" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="name">Name:</label></td>
+                                <td><input type="text" id="name" name="name" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="email">Email:</label></td>
+                                <td><input type="text" id="email" name="email" required></td>
+                            </tr>
+                            <tr>
+                                
+                            </tr>                                                       
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <button type="submit" class="btn">Register</button>
+            <button type="reset" class="btn">Clear</button>
+        </form>
+    </div>
+</main>
+    <footer>
+        <!-- Add any footer content here -->
+    </footer>
+    
+    <script>
+        document.getElementById('profilePicture').addEventListener('change', function () {
+            var imagePreview = document.getElementById('imagePreview');
+            var file = this.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>

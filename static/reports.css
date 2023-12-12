@@ -1,0 +1,285 @@
+/* Reset some default styles for consistency */
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header styles */
+header {
+    background-color: #008006;
+    color: white;
+    padding: 20px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+.menu-toggle .burger-menu {
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+/* Navbar links */
+.navbar-links {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.navbar-links .dropdown {
+    position: relative;
+}
+
+.navbar-links .dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #e0ffe0; /* Slightly green background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    left: 0;
+    top: 100%;
+}
+
+.navbar-links .dropdown .dropdown-toggle {
+    cursor: pointer;
+}
+
+.navbar-links .dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Main content styles */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.report-list {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    text-align: center;
+    max-width: 100%; /* Allow the container to grow, but not exceed the viewport width */
+    overflow-x: auto; /* Add horizontal scrolling for smaller screens if needed */
+
+}
+
+.report-list h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #000000;
+    align-self: center;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #008006;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+/* Button styles */
+.btn {
+    background-color: #008006;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #006700;
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #008006;
+    color: white;
+}
+.search-input, .filter-select, .filter-label {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    font-size: 14px;
+}
+
+.filter-label {
+    display: block;
+    font-weight: bold;
+}
+
+.filter-select {
+    width: 100%;
+    max-width: 200px;
+}
+
+.report-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.actions button {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.filters {
+    margin-right: 20px; /* Add margin between filters and actions */
+}
+#reportsTable {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#reportsTable th, #reportsTable td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    width: 100%;
+    min-width: 20%; /* Set a minimum width to prevent the table from being too narrow */
+
+}
+
+#reportsTable th:nth-child(1),
+#reportsTable td:nth-child(1) {
+    text-align: center;
+    width: 10%; /* Adjust the width as needed */
+}
+#reportsTable th:nth-child(2),
+#reportsTable td:nth-child(2) {
+    text-align: center;
+    width: 20%; /* Adjust the width as needed */
+}
+
+#reportsTable th:nth-child(3),
+#reportsTable td:nth-child(3) {
+    text-align: center;
+    width: 15%; /* Adjust the width as needed */
+}
+
+#reportsTable th:nth-child(4),
+#reportsTable td:nth-child(4) {
+    text-align: center;
+    width: 15%; /* Adjust the width as needed */
+}
+
+#reportsTable th:nth-child(5),
+#reportsTable td:nth-child(5) {
+    text-align: center;
+    width: 35%; /* Adjust the width as needed */
+}
+
+#reportsTable th:nth-child(6),
+#reportsTable td:nth-child(6) {
+    text-align: center;
+    width: 15%; /* Adjust the width as needed */
+}
+#custom-search-input {
+    width: 200px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+#reportsTable_paginate .paginate_button {
+    padding: 5px 10px;
+    margin: 0 2px;
+    border: 2px solid #008006; /* Green border */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#reportsTable_paginate .paginate_button:hover {
+    background-color: #a3eea7; /* Darker green on hover */
+    
+}
+
+#reportsTable_paginate .paginate_button.current {
+    background-color: #008006; /* Darker green for current page */
+}

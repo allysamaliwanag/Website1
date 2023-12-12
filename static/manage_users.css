@@ -1,0 +1,188 @@
+/* Add your custom CSS styles here */
+
+/* Reset some default styles for consistency */
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+/* Header styles */
+header {
+    background-color: #008006;
+    color: white;
+    padding: 20px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-right: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Main content styles */
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.report-list {
+    text-align: center;
+}
+
+.report-list h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+/* Button styles */
+.btn {
+    background-color: #008006;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #006700;
+}
+
+/* Footer styles */
+.footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #008006;
+    color: white;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+/* Add this CSS for the buttons within the action-buttons class */
+.action-buttons .edit-btn, .action-buttons .delete-btn {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons .edit-btn:hover, .action-buttons .delete-btn:hover {
+    background-color: #004488;
+}
+/* CSS for search bar and dropdown */
+.search-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#searchInput {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#searchCategory {
+    flex: 1;
+    margin-left: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#searchCategory option {
+    background-color: white;
+    color: #333;
+}
+
+.btn {
+    background-color: #008006;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #006700;
+}
+.scrollable-table {
+    height: 250px; /* Set your desired fixed height here */
+    overflow-y: auto; /* Add a vertical scrollbar when needed */
+    border-collapse: collapse; /* For table styling */
+    width: 100%; /* Optional: To make the table take full width of its container */
+}
+
+/* Optional: Add styling for table header */
+.scrollable-table th {
+    background-color: #f2f2f2;
+}
+
+/* Optional: Style the table rows */
+.scrollable-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

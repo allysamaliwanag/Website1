@@ -28,7 +28,7 @@ header {
 }
 
 .logo h1 {
-    font-size: 40px; /* Adjust the font size of the school name */
+    font-size: 28px; /* Adjust the font size of the school name */
     font-weight: bold;
     color: white;
     flex-grow: 1; /* Make the school name occupy remaining space */

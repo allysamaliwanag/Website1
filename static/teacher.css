@@ -28,19 +28,22 @@ header {
     padding: 0 20px;
 }
 
+.navbar {
+    display: flex;
+    max-width: 1200px;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 .logo img {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
+    width: 80px;
+    height: 70px;
 }
 
 .logo h1 {
     font-size: 24px;
     font-weight: bold;
-}
-.logo {
-    display: flex;
-    align-items: center;
 }
 
 .nav-links {
@@ -212,10 +215,16 @@ table.display tbody tr:hover {
 }
 
 .footer {
-    text-align: center;
-    padding: 10px 0;
-    background-color: #008006; /* Green color */
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #008006;
+    text-align: center; /* Center the text */
     color: white;
+    padding-inline: 30px;
+    padding-block: 10px;
 }
 
 #editSectionModal {

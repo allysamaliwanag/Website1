@@ -1,6 +1,7 @@
 var $j = jQuery.noConflict();
 var reportsTable;
 
+
 $j(document).ready(function() {
     reportsTable = $j('#reportsTable').DataTable({
         "ajax": {
@@ -171,7 +172,10 @@ $j('#deleteSelectedButton').on('click', function () {
 
 });
 
+
+
 $j('#downloadPdfButton').on('click', function () {
+
     // Initialize jsPDF
     var doc = new jsPDF();
 

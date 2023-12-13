@@ -17,13 +17,15 @@ from flask import jsonify, make_response
 from sqlalchemy.exc import NoResultFound
 from enum import Enum
 
+
 serializer = URLSafeTimedSerializer('your-secret-key')
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'mysecretkey123'
 CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://mysql:BtF8Ma6N6IHMrLL9QmNMuYcEHH5jmgfVnpUOi7HMRcY=@mysql-uib7:3306/mysql'
-app.config['UPLOAD_FOLDER'] = 'stdpics'
+app.config['UPLOAD_FOLDER'] = 'static/stdpics'
+app.config['UPLOAD_FOLDER1'] = 'static/tchpics'
 
 
 db = SQLAlchemy(app)
@@ -32,6 +34,15 @@ def save_image(file):
     if file:
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+        return filepath
+    return None
+
+
+def save_image1(file):
+    if file:
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER1'], filename)
         file.save(filepath)
         return filepath
     return None
@@ -255,8 +266,9 @@ def student_dashboard():
     if username:
         student = Student.query.filter_by(username=username).first()
         if student:
-            student.image = 'stdpics/My_project.jpg'
-            
+            student.image = student.image.decode('utf-8')
+            print(student.image)
+          
             return render_template('student.html', student=student)
         else:
             flash('Student not found', 'error')
@@ -280,7 +292,7 @@ def register_teacher():
         
         # Handle image upload
         uploaded_file = request.files['profilePicture']
-        image_path = save_image(uploaded_file)
+        image_path = save_image1(uploaded_file)
 
         # Check if the username already exists
         existing_teacher = Teacher.query.filter_by(username=username).first()
@@ -303,12 +315,21 @@ def register_teacher():
 def manage_reports():
     return render_template('reports.html')
 
+
+@app.route('/forgot_password')
+def forgot_password():
+    return render_template('forgot_password.html')
+
+
 @app.route('/teacher')
 def teacher_dashboard():
     teacher_username = session.get('username')
     if teacher_username:
         teacher = Teacher.query.filter_by(username=teacher_username).first()
+        print(teacher)
         if teacher:
+            teacher.image = teacher.image.decode('utf-8')
+            print(teacher.image)
             teacher_section = teacher.section
 
             # Fetch student data for the teacher's section, including attendance data

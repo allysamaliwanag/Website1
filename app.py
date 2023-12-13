@@ -22,7 +22,7 @@ app = Flask(__name__, static_folder='static')
 app.secret_key = 'mysecretkey123'
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://mysql:a1856fa419736515ecb9f815655d3ae6@sqlrfid:3306/my_database'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://mysql:BtF8Ma6N6IHMrLL9QmNMuYcEHH5jmgfVnpUOi7HMRcY=@mysql-uib7:3306/mysql'
 app.config['UPLOAD_FOLDER'] = 'stdpics'
 
 

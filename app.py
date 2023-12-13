@@ -245,7 +245,7 @@ def admin_dashboard():
 @app.route('/logout', methods=['GET'])
 def logout():
     session.pop('username', None)  # Remove the username from the session
-    return redirect(url_for('login'))
+    return redirect(url_for(''))
 
 @app.route('/student')
 def student_dashboard():

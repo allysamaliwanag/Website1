@@ -11,6 +11,7 @@ body {
 header {
     background-color: #008006;
     color: white;
+    padding: 10px 0;
 }
 
 .navbar {
@@ -44,6 +45,12 @@ header {
     color: white;
     text-decoration: none;
     font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.nav-links a:hover {
+    color: #ffd700; /* Change color on hover */
 }
 
 main {

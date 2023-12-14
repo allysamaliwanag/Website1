@@ -1,7 +1,6 @@
 var $j = jQuery.noConflict();
 var reportsTable;
 
-
 $j(document).ready(function() {
     reportsTable = $j('#reportsTable').DataTable({
         "ajax": {

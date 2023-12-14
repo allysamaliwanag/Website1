@@ -104,29 +104,39 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    
-
     <script>
         $(document).ready(function() {
-            // DataTable initialization and configuration
-            var table = $('#reportsTable').DataTable({
-                // Your existing DataTable configuration here
-                dom: 'Bfrtip', // Add buttons to the DataTable
-                buttons: [
-                    {
-                        extend: 'pdfHtml5',
-                        title: 'Reports List',
-                        text: '<i class="fas fa-download"></i> Download PDF',
-                        className: 'btn',
-                        exportOptions: {
-                            columns: ':visible'
-                        },
-                        customize: function (doc) {
-                            // Customize the PDF document if needed
+            // Check if the DataTables library is loaded
+            if ($.fn.DataTable) {
+                // DataTable initialization and configuration
+                var table = $('#reportsTable').DataTable({
+                    // Your existing DataTable configuration here
+                    dom: 'Bfrtip', // Add buttons to the DataTable
+                    buttons: [
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Reports List',
+                            text: '<i class="fas fa-download"></i> Download PDF',
+                            className: 'btn',
+                            exportOptions: {
+                                columns: ':visible'
+                            },
+                            customize: function (doc) {
+                                // Customize the PDF document if needed
+                            }
                         }
-                    }
-                ]
-            });
+                    ]
+                });
+            } else {
+                console.error('DataTables library is not loaded. Make sure you have included the jQuery DataTables script.');
+            }
+    
+            // Check if jsPDF is loaded
+            if (typeof jsPDF !== 'undefined') {
+                // jsPDF is loaded
+            } else {
+                console.error('jsPDF library is not loaded. Make sure you have included the jsPDF script.');
+            }
         });
     </script>
 

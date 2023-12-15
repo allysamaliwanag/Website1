@@ -24,7 +24,6 @@ app.secret_key = 'mysecretkey123'
 CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://mysql:BtF8Ma6N6IHMrLL9QmNMuYcEHH5jmgfVnpUOi7HMRcY=@mysql-uib7:3306/mysql'
-app.config['UPLOAD_FOLDER'] = 'static/stdpics'
 app.config['UPLOAD_FOLDER1'] = 'static/tchpics'
 
 

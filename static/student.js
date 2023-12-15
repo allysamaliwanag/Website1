@@ -1,6 +1,8 @@
+let studentID;
+
 $(document).ready(function () {
     // Initialize the flatpickr date picker
-
+ 
     function getTeacherInfo() {
         // Get the student's teacher information
         $.get('/get_teacher_for_student', function (data) {

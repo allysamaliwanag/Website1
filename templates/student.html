@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Portal</title>
@@ -10,77 +10,79 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="{{ url_for('static', filename='student.js') }}"></script>
-  </head> 
-  <body>
-    <header>
-      <nav class="navbar">
+</head>
+<body>
+<header>
+    <nav class="navbar">
         <div class="logo">
-          <img src="{{ url_for('static', filename='school_logo.png') }}" alt="School Logo">
-          <h1>Alitagtag Senior Highschool</h1>
+            <img src="{{ url_for('static', filename='school_logo.png') }}" alt="School Logo">
+            <h1>Alitagtag Senior Highschool</h1>
         </div>
         <ul class="nav-links">
-          <li><a href="/">Logout</a></li>
+            <li><a href="/">Logout</a></li>
         </ul>
-      </nav>
-    </header>
-    <main>
-      <section class="profile">
-      
+    </nav>
+</header>
+<main>
+    <section class="profile">
         <div class="profile-photo">
-          <img src="{{ url_for('static', filename=student.image|replace('\\', '/')|replace('static/', '')) }}" alt="Profile Photo">
-      </div>
-       
-        <div class="profile-details">
-          <h2>Welcome, {{ student.name }}!</h2>
-          <p>Student ID: {{ student.studentID }}</p>
-          <p>Email: {{ student.email }}</p>
-          <p>Section: {{ student.section }}</p>
-          <button type="button" class="btn btn-primary" id="teacherInfoBtn">View Teacher Information</button>
-          <!-- Modal for displaying teacher's information -->
-          <div class="modal fade" id="teacherModal" tabindex="-1" role="dialog" aria-labelledby="teacherModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="teacherModalLabel">Teacher Information</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p><strong>Name:</strong> <span id="teacherName"></span></p>
-                  <p><strong>Email:</strong> <span id="teacherEmail"></span></p>
-                  <p><strong>Section:</strong> <span id="teacherSection"></span></p>
-                  <p><strong>Grade Level:</strong> <span id="teacherGradeLevel"></span></p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
+            <img src="{{ url_for('static', filename=student.image|replace('\\', '/')) }}" alt="Profile Photo">
         </div>
-      </section>
+        <div class="profile-details">
+            <h2>Welcome, {{ student.name }}!</h2>
+            <p>Student ID: {{ student.studentID }}</p>
+            <p>Email: {{ student.email }}</p>
+            <p>Section: {{ student.section }}</p>
+            <p id="studentID" data-student-id="{{ student.studentID }}" style="display: none;"></p>
+            <button type="button" class="btn1026" id="teacherInfoBtn">View Teacher Information</button>
+            <!-- Modal for displaying teacher's information -->
+            <div class="modal fade" id="teacherModal" tabindex="-1" role="dialog" aria-labelledby="teacherModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="teacherModalLabel">Teacher Information</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <p><strong>Name:</strong> <span id="teacherName"></span></p>
+                                    <p><strong>Email:</strong> <span id="teacherEmail"></span></p>
+                                    <p><strong>Section:</strong> <span id="teacherSection"></span></p>
+                                    <p><strong>Grade Level:</strong> <span id="teacherGradeLevel"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn1026" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <section class="attendance-records">
+    <section class="attendance-records">
         <h2>Attendance Records</h2>
         <table class="table table-bordered">
-          <thead>
-              <tr>
-                  <th>Date</th>
-                  <th>Status</th>
-              </tr>
-          </thead>
-          <tbody id="attendanceRecordsTable">
-              <!-- Attendance records will be populated here -->
-          </tbody>
-      </table>
-      
-      <div class="status-counts">
-          <p><strong>Present Count:</strong> <span id="presentCount">0</span></p>
-          <p><strong>Absent Count:</strong> <span id="absentCount">0</span></p>
-      </div>
-      
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody id="attendanceRecordsTable">
+            <!-- Attendance records will be populated here -->
+            </tbody>
+        </table>
+
+        <div class="status-counts">
+            <p><strong>Present Count:</strong> <span id="presentCount">0</span></p>
+            <p><strong>Absent Count:</strong> <span id="absentCount">0</span></p>
+        </div>
 
         <label for="statusFilter">Filter by Status:</label>
         <select id="statusFilter">
@@ -88,19 +90,153 @@
             <option value="Present">Present</option>
             <option value="Absent">Absent</option>
         </select>
-        <button type="button" id="filterRecordsBtn" class="btn btn-primary">Filter Records</button>
-        
+        <button type="button" id="filterRecordsBtn" class="btn1026">Filter Records</button>
+
         <label for="dateFilter">Filter by Date:</label>
-<input type="text" id="dateFilter" data-input>
-<button type="button" id="clearDateFilterBtn">Clear</button>
-
+        <input type="text" id="dateFilter" data-input>
+        <button type="button" id="clearDateFilterBtn">Clear</button>
     </section>
-    
-    </main>
-    <footer class="footer">
-      <p>&copy; 2023 Alitagtag Senior Highschool. All rights reserved.</p>
-    </footer>
+
+    <section class="absence-reasoning">
+      <h2>Absence Reasoning</h2>
+      <button type="button" id="launchEmailBtn" class="btn1026">Launch Gmail</button>
+  </section>
+  
+
+</main>
+<footer class="footer">
+    <p>&copy; 2023 Alitagtag Senior Highschool. All rights reserved.</p>
+</footer>
+<script>
+$(document).ready(function () {
+    let studentID = "{{ student.studentID }}";
+
+    // Initialize the flatpickr date picker
+    flatpickr("#dateFilter", {
+        dateFormat: "Y-m-d", // Set the date format
+        enableTime: false,
+        inline: false,
+        defaultDate: "today", // Set the default date to today
+        enable: [
+            function (date) {
+                return true;
+            }
+        ],
+    });
+
+    // Function to get teacher information
+    function getTeacherInfo() {
+        // Get the student's teacher information
+        $.get('/get_teacher_for_student', function (data) {
+            console.log("Data from /get_teacher_for_student:", data);
+
+            if (data.error) {
+                alert(data.error);
+            } else {
+                // Update the modal with teacher information
+                $('#teacherName').text(data.name);
+                $('#teacherEmail').text(data.email);
+                $('#teacherSection').text(data.section);
+                $('#teacherGradeLevel').text(data.grade_level);
+
+                // Show the modal
+                $('#teacherModal').modal('show');
+            }
+        });
+    }
+
+    // Add click event handler to the "View Teacher Information" button
+    $('#teacherInfoBtn').click(function () {
+        getTeacherInfo();
+    });
 
 
-  </body>
+    // Function to filter attendance records
+    function filterAttendanceRecords() {
+        const statusFilter = $("#statusFilter").val();
+        const selectedDate = $("#dateFilter").val();
+        const currentDate = new Date().toISOString().split('T')[0];
+
+        // Fetch studentID from the data attribute of the element
+        const studentID = $("#studentID").data("student-id");
+
+        console.log("Student ID:", studentID); // Debug statement
+
+        if (studentID && selectedDate) {
+            $.ajax({
+                url: "/get_filtered_attendance_records",
+                method: "GET",
+                data: {
+                    studentID: studentID,
+                    statusFilter: statusFilter,
+                    selectedDate: selectedDate
+                },
+                success: function (data) {
+                    const table = $('#attendanceRecordsTable');
+                    table.empty();
+
+                    let presentCount = 0;
+                    let absentCount = 0;
+
+                    if (data.length > 0) {
+                        data.forEach(function (record) {
+                            const row = $("<tr>");
+                            row.append($("<td>").text(record.date));
+                            row.append($("<td>").text(record.status));
+                            table.append(row);
+
+                            if (record.status === 'Present') {
+                                presentCount++;
+                            } else if (record.status === 'Absent') {
+                                absentCount++;
+                            }
+                        });
+                    } else {
+                        alert("No attendance records found for this student.");
+                    }
+
+                    $('#presentCount').text(presentCount);
+                    $('#absentCount').text(absentCount);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                    alert("An error occurred while fetching attendance records.");
+                }
+            });
+        } else {
+            alert("Student session not established. Please log in.");
+        }
+    }
+
+    $('#filterRecordsBtn').click(function () {
+        filterAttendanceRecords();
+    });
+
+    $('#clearDateFilterBtn').click(function () {
+        $("#dateFilter").flatpickr().clear();
+        filterAttendanceRecords();
+    });
+
+    // Call filterAttendanceRecords() when the page loads
+    filterAttendanceRecords();
+
+    $(document).ready(function() {
+    $('#launchEmailBtn').click(function() {
+        // Compose email content
+        let subject = encodeURIComponent('Absentee Notification');
+        let body = encodeURIComponent('Dear Teacher,\n\nI was absent from class today due to the following reason:\n\n[Enter reason here]\n\nSincerely,\n[Your Name]');
+        
+        // Construct mailto link
+        let mailtoLink = `mailto:maliwanagallysa@gmail.com?subject=${subject}&body=${body}`;
+
+        // Open default email client
+        window.location.href = mailtoLink;
+    });
+});
+
+});
+
+</script>
+
+</body>
 </html>

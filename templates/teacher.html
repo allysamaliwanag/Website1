@@ -22,7 +22,7 @@
     <main>
         <section class="profile">
             <div class="profile-photo">
-                <img src="{{ url_for('static', filename=teacher.image|replace('\\', '/')|replace('static/', '')) }}" alt="Profile Photo">
+                <img src="{{ url_for('static', filename=teacher.image|replace('\\', '/')) }}" alt="Profile Photo">
             </div>
             <div class="profile-details">
                 <h2>Welcome, {{ teacher.name }}!</h2>

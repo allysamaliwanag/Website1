@@ -154,7 +154,7 @@ table.display tbody tr:hover {
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: #00b327;
 }
 
 /* CSS for the search bar */
@@ -186,7 +186,7 @@ table.display tbody tr:hover {
 
 /* Hover effect on the search button */
 .search-bar button:hover {
-    background-color: #0056b3;
+    background-color: #026b10;
 }
 
 /* Add some styling for the "Update Student Sections" section title */

@@ -173,30 +173,5 @@ $j('#deleteSelectedButton').on('click', function () {
 
 
 
-$j('#downloadPdfButton').on('click', function () {
-    // Initialize jsPDF
-    var doc = new jsPDF();
-
-    // Get the table as a jQuery object
-    var $table = $j('#reportsTable');
-
-    // Get the data from the DataTable
-    var data = [];
-    $table.DataTable().rows().every(function () {
-        var rowData = this.data();
-        data.push(rowData);
-    });
-
-    // Create a table with the data using autoTable
-    doc.autoTable({
-        head: [$table.find('thead th').map(function () { return $j(this).text(); }).get()],
-        body: data,
-    });
-
-    // Save the PDF
-    doc.save('reports.pdf');
-});
-
-
 
 });

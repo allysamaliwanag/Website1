@@ -1,42 +1,33 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask import request, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, make_response, session
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
-from werkzeug.security import check_password_hash
-from sqlalchemy import or_
-from flask import session, flash
 import bcrypt
+from sqlalchemy import or_
 from itsdangerous import URLSafeTimedSerializer
-from flask import render_template
-from sqlalchemy import Column, Integer, String, DateTime, Text
-from sqlalchemy.orm import Session
-from collections import defaultdict
-from flask import jsonify, make_response
 from sqlalchemy.exc import NoResultFound
 from enum import Enum
+import secrets
+import string
+from io import BytesIO
+from flask import send_file
+from flask import send_from_directory
 
+def generate_secret_key(length=24):
+    # Generate a random string of ASCII letters and digits
+    alphabet = string.ascii_letters + string.digits
+    return ''.join(secrets.choice(alphabet) for _ in range(length))
 
 serializer = URLSafeTimedSerializer('your-secret-key')
 app = Flask(__name__, static_folder='static')
-app.secret_key = 'mysecretkey123'
+app.secret_key = generate_secret_key()
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://mysql:BtF8Ma6N6IHMrLL9QmNMuYcEHH5jmgfVnpUOi7HMRcY=@mysql-uib7:3306/mysql'
-app.config['UPLOAD_FOLDER1'] = 'static/tchpics'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost/rfid'
+app.config['UPLOAD_FOLDER1'] = 'static/pfp'  
 
 db = SQLAlchemy(app)
-
-def save_image(file):
-    if file:
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-        return filepath
-    return None
-
 
 def save_image1(file):
     if file:
@@ -45,8 +36,6 @@ def save_image1(file):
         file.save(filepath)
         return filepath
     return None
-
-
 
 class Report(db.Model):
    
@@ -157,6 +146,9 @@ def login():
         student = Student.query.filter_by(username=username).first()
         print(f"Student: {student}")
         if student and bcrypt.checkpw(password.encode('utf-8'), student.password.encode('utf-8')):
+            # Store username and studentID in session
+            session['username'] = username
+            session['studentID'] = student.studentID
             role = 'student'
 
         # Check for teacher login
@@ -171,14 +163,19 @@ def login():
 
         if role:
             flash(f'Login successful as {role.capitalize()}!', 'success')
-            username = username.strip()
-            session['username'] = username  # Store the username in the session
-        if role == 'student':
-                flash(f'Login successful as {role.capitalize()}!', 'success')
+            # Store username in session
+            session['username'] = username
+            print(f"Session username set: {session.get('username')}") 
+            print(f"Session studentID set: {session.get('studentID')}")  # Debug statement
+            print("Session data just before redirect:", session)  # Add this line
+            if role == 'student':
+                # Since this is a student, redirect to the student_dashboard route
                 return redirect(url_for('student_dashboard'))
-        elif role == 'teacher':
+            elif role == 'teacher':
+                # Redirect to the teacher_dashboard route
                 return redirect(url_for('teacher_dashboard'))
-        elif role == 'admin':
+            elif role == 'admin':
+                # Redirect to the admin_dashboard route
                 return redirect(url_for('admin_dashboard'))
         else:
             # Invalid login
@@ -186,6 +183,10 @@ def login():
             print(f"Role: {role}")
 
     return render_template('login.html')
+
+
+
+
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
@@ -228,7 +229,7 @@ def student_registration():
 
         # Handle image upload
         uploaded_file = request.files['profilePicture']
-        image_path = save_image(uploaded_file)
+        image_path = save_image1(uploaded_file)
 
         # Check if the username already exists
         existing_student = Student.query.filter_by(username=username).first()
@@ -259,25 +260,61 @@ def logout():
 
 @app.route('/student')
 def student_dashboard():
-    # Get the currently logged-in student based on their session
-    username = session.get('username')  # Replace with the actual logged-in username
+    # Print session data for debugging
+    print("Session data:", session)
     
-    if username:
-        student = Student.query.filter_by(username=username).first()
-        if student:
-            student.image = student.image.decode('utf-8')
-            print(student.image)
-          
-            return render_template('student.html', student=student)
+    # Get the currently logged-in student based on their session
+    username = session.get('username')
+    print("Username from session:", username)
+
+    if not username:  # If username is not in session
+        return redirect(url_for('login'))
+
+    student = Student.query.filter_by(username=username).first()
+    print("Retrieved student from database:", student)
+
+    if student:
+        # Store studentID in the session
+        session['studentID'] = student.studentID
+
+        # Decode student image path if it's encoded
+        student.image = student.image.decode('utf-8')
+        print("Decoded student image path:", student.image)
+
+        # Fetch teacher information from the database
+        teacher = Teacher.query.filter_by(section=student.section).first()
+
+        if teacher:
+            # Decode teacher image path if it's encoded
+            teacher.image = teacher.image.decode('utf-8')
+            print("Decoded teacher image path:", teacher.image)
+
+            # Pass both student and teacher data to the template
+            return render_template('student.html', student=student, teacher=teacher)
         else:
-            flash('Student not found', 'error')
-            print("Student not found in the database.")
+            flash('Teacher not found for this student', 'error')
+            print("Teacher not found for this student.")
+            return redirect(url_for('login'))
     else:
-        flash('Username not found in the session', 'error')
-        print("Username not found in the session.")
+        flash('Student not found in the database', 'error')
+        print("Student not found in the database.")
 
     print("Redirecting to login page.")
     return redirect(url_for('login'))
+
+
+
+@app.route('/get_teacher_image', methods=['GET'])
+def get_teacher_image():
+    teacher = Teacher.query.first()  # Assuming you want to retrieve the first teacher's image
+    if teacher:
+        image_path_bytes = teacher.image
+        image_path_str = image_path_bytes.decode('utf-8')  # Assuming the encoding is UTF-8
+        return send_file(image_path_str, mimetype='image/jpeg')
+    else:
+        return jsonify(error='Teacher not found')
+
+
 
 @app.route('/register_teacher', methods=['POST'])
 def register_teacher():
@@ -601,6 +638,7 @@ def view_attendance():
     return render_template('student.html', student_attendance=student_attendance)
 
 
+
 @app.route('/get_all_students', methods=['GET'])
 def get_all_students():
     try:
@@ -651,9 +689,10 @@ def search_student():
 @app.route('/get_teacher_for_student', methods=['GET'])
 def get_teacher_for_student():
     student_username = session.get('username')
+    studentID = session.get('studentID')  # Get the studentID from the session
     
-    if student_username:
-        student = Student.query.filter_by(username=student_username).first()
+    if student_username and studentID:
+        student = Student.query.filter_by(username=student_username, studentID=studentID).first()
         
         if student:
             student_section = student.section  # Get the student's section
@@ -667,7 +706,8 @@ def get_teacher_for_student():
                     'name': teacher.name,
                     'email': teacher.email,
                     'section': teacher.section,
-                    'grade_level': teacher.grade_level
+                    'grade_level': teacher.grade_level,
+                    'teacherID': teacher.teacherID  # Include teacherID in the response
                 }
                 return jsonify(teacher_info)
             else:
@@ -675,7 +715,8 @@ def get_teacher_for_student():
         else:
             return jsonify({'error': 'Student not found'})
     else:
-        return jsonify({'error': 'Student username not available'})
+        return jsonify({'error': 'Student username or studentID not available'})
+
 
 
 @app.route('/get_student_data', methods=['GET'])
@@ -727,15 +768,12 @@ def update_student_data(student_id):
 @app.route('/get_initial_attendance_data', methods=['GET'])
 def get_initial_attendance_data():
     try:
-        teacher_username = session.get('username')
-        if teacher_username:
-            teacher = Teacher.query.filter_by(username=teacher_username).first()
-            if teacher:
-                teacher_grade_level = teacher.grade_level
-                teacher_section = teacher.section
-
-                # Filter attendance records based on teacher's grade_level and section
-                attendance_records = AttendanceRecord.query.filter_by(grade_level=teacher_grade_level, section=teacher_section).all()
+        studentID = session.get('studentID')
+        if studentID:
+            student = Student.query.filter_by(studentID=studentID).first()
+            if student:
+                # Filter attendance records based on student's ID
+                attendance_records = AttendanceRecord.query.filter_by(studentID=studentID).all()
 
                 data = [
                     {
@@ -751,7 +789,7 @@ def get_initial_attendance_data():
 
                 return jsonify(data)
 
-        return jsonify([])  # No teacher data found in the session
+        return jsonify([])  # No student data found in the session
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -810,14 +848,14 @@ def get_filtered_attendance():
 
 @app.route('/get_filtered_attendance_records', methods=['GET'])
 def get_filtered_attendance_records():
-    if 'username' in session:
+    if 'username' in session and 'studentID' in session:
         username = session['username']
+        studentID = session['studentID']
 
         # Query the database for the student's information based on the username
         student = Student.query.filter_by(username=username).first()
 
-        if student:
-            studentID = student.studentID
+        if student and studentID == student.studentID:
             selected_date = request.args.get('selectedDate')
             status_filter = request.args.get('statusFilter')
 
@@ -841,9 +879,10 @@ def get_filtered_attendance_records():
 
             return jsonify(records_data)
         else:
-            return jsonify({'error': 'Student not found'})
+            return jsonify({'error': 'Unauthorized access or session mismatch'})
     else:
-        return jsonify({'error': 'Session not established'})
+        return jsonify({'error': 'Session not established or missing studentID'})
+
 
 @app.route('/delete_selected', methods=['POST'])
 def delete_selected():
@@ -940,10 +979,6 @@ def update_user():
     except Exception as e:
         print(f'Error: {str(e)}')
         return jsonify({'message': 'Update failed', 'error': str(e)})
-
-
-
-
    
 if __name__ == '__main__':
     app.run(debug=True)

@@ -24,7 +24,7 @@ app = Flask(__name__, static_folder='static')
 app.secret_key = generate_secret_key()
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost/rfid'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://mysql:BtF8Ma6N6IHMrLL9QmNMuYcEHH5jmgfVnpUOi7HMRcY=@mysql-uib7:3306/mysql'
 app.config['UPLOAD_FOLDER1'] = 'static/pfp'  
 
 db = SQLAlchemy(app)
